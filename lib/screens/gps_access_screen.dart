@@ -45,7 +45,8 @@ class _AccessButtom extends StatelessWidget {
           elevation: 0,
           splashColor: Colors.transparent,
           onPressed: () {
-            //Todo: por hacer
+            final gpsBloc = BlocProvider.of<GpsBloc>(context);
+            gpsBloc.askGpsAccess();
           },
           child: const Text(
             "Solictar acceso",

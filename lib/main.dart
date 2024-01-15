@@ -25,7 +25,7 @@ class MapasApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Mapas App',
-      home: GpsAccessScreen(),
+      home: LoadingScreen(),
     );
   }
 }
