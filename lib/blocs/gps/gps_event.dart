@@ -7,11 +7,11 @@ sealed class GpsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GpsPermissionEvent extends GpsEvent {
+class GpsAndPermissionEvent extends GpsEvent {
   final bool isGpsEnable;
   final bool isGpsPermissionGranted;
 
-  const GpsPermissionEvent({
+  const GpsAndPermissionEvent({
     required this.isGpsEnable,
     required this.isGpsPermissionGranted,
   });
