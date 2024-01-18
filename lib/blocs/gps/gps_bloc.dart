@@ -18,7 +18,7 @@ class GpsBloc extends Bloc<GpsEvent, GpsState> {
             isGpsPermissionGranted: false,
           ),
         ) {
-    on<GpsPermissionEvent>(
+    on<GpsAndPermissionEvent>(
       (event, emit) => emit(
         state.copyWith(
           isGpsEnable: event.isGpsEnable,
@@ -34,14 +34,15 @@ class GpsBloc extends Bloc<GpsEvent, GpsState> {
         await Future.wait([_checkGpsStatus(), _isPermissionGranted()]);
 
     add(
-      GpsPermissionEvent(
-          isGpsEnable: gpsInitStatus[0],
-          isGpsPermissionGranted: gpsInitStatus[1]),
+      GpsAndPermissionEvent(
+        isGpsEnable: gpsInitStatus[0],
+        isGpsPermissionGranted: gpsInitStatus[1],
+      ),
     );
   }
 
   Future<bool> _isPermissionGranted() async {
-    final isGranted = Permission.location.isGranted;
+    final isGranted = await Permission.location.isGranted;
 
     return isGranted;
   }
@@ -53,7 +54,7 @@ class GpsBloc extends Bloc<GpsEvent, GpsState> {
       (event) {
         final isEnable = (event.index == 1) ? true : false;
         add(
-          GpsPermissionEvent(
+          GpsAndPermissionEvent(
               isGpsEnable: isEnable,
               isGpsPermissionGranted: state.isGpsPermissionGranted),
         );
@@ -68,7 +69,7 @@ class GpsBloc extends Bloc<GpsEvent, GpsState> {
 
     switch (status) {
       case PermissionStatus.granted:
-        add(GpsPermissionEvent(
+        add(GpsAndPermissionEvent(
             isGpsEnable: state.isGpsEnable, isGpsPermissionGranted: true));
 
       case PermissionStatus.denied:
@@ -76,7 +77,7 @@ class GpsBloc extends Bloc<GpsEvent, GpsState> {
       case PermissionStatus.limited:
       case PermissionStatus.permanentlyDenied:
       case PermissionStatus.provisional:
-        add(GpsPermissionEvent(
+        add(GpsAndPermissionEvent(
             isGpsEnable: state.isGpsEnable, isGpsPermissionGranted: false));
 
         openAppSettings();
